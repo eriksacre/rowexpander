@@ -1,0 +1,23 @@
+
+    /***** Classes that should not be touched *****/
+    /* .hidden is used to show/hide rows */
+    .hidden { display: none; }
+
+    /***** Classes that may be amended to customize the experience *****/
+    /* .closed: use this to show a row closed indicator, typically a downward pointing arrow */
+    .closed i.indicator { background: url(expand.png); display: block; width: 19px; height: 19px; cursor: pointer; }
+    /* .open: use to show the open indicator. It expands .closed, so usually swapping the background image is all that is required */
+    .open i.indicator { background: url(collapse_top.png); }
+    /* When opening a row, the content is loaded via Ajax. .loading lets you show a loading animation */
+    .loading { display: block; width: 80px; height: 10px; background: url(loading.gif); }
+
+    /***** Classes that have no function other than allowing custom styling *****/
+    /* Because RowExpander adds rows, :odd is no longer correct. .odd is added to allow striping the table */
+    .odd { background: #eee; }
+
+    /* The detail-row that is shown when opening a row gets the .detail class */
+    .detail {  }
+
+    /* .openclose is used on the header-element for the column that contains the indicators */
+    .openclose { width: 19px; }
+
