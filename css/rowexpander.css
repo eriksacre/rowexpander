@@ -1,23 +1,54 @@
 
     /***** Classes that should not be touched *****/
-    /* .hidden is used to show/hide rows */
-    .hidden { display: none; }
+    /* .re-hidden is used to show/hide rows */
+    .re-hidden { 
+      display: none; 
+    }
 
     /***** Classes that may be amended to customize the experience *****/
-    /* .closed: use this to show a row closed indicator, typically a downward pointing arrow */
-    .closed i.indicator { background: url(expand.png); display: block; width: 19px; height: 19px; cursor: pointer; }
-    /* .open: use to show the open indicator. It expands .closed, so usually swapping the background image is all that is required */
-    .open i.indicator { background: url(collapse_top.png); }
-    /* When opening a row, the content is loaded via Ajax. .loading lets you show a loading animation */
-    .loading { display: block; width: 80px; height: 10px; background: url(loading.gif); }
+    /* .re-collapsible: use this to show a row closed indicator, typically a downward pointing arrow */
+    .re-collapsible i.re-indicator { 
+      background: url(expand.png); 
+      display: block; 
+      width: 19px; 
+      height: 19px; 
+      cursor: pointer; 
+    }
+
+    /* Default position = right. When positioned on the left, use a different indicator image */
+    .re-collapsible i.re-indicator.left {
+      background: url(collapse.png);
+    }
+
+    /* .re-open: use to show the open indicator. It expands .re-collapsible, so usually swapping the background image is all that is required */
+    .re-open i.re-indicator { 
+      background: url(collapse_top.png); 
+    }
+
+    /* Default position = right. When positioned on the left, use a different indicator image */
+    .re-open i.re-indicator.left {
+      background: url(expand.png);
+    }
+
+    /* When opening a row, the content is loaded via Ajax. .re-loading lets you show a loading animation */
+    .re-loading { 
+      display: block; 
+      width: 80px; 
+      height: 10px; 
+      background: url(loading.gif); 
+    }
 
     /***** Classes that have no function other than allowing custom styling *****/
-    /* Because RowExpander adds rows, :odd is no longer correct. .odd is added to allow striping the table */
-    .odd { background: #eee; }
+    /* Because RowExpander adds rows, :odd is no longer correct. .re-odd is added to allow striping the table */
+    .re-odd { 
+    }
 
-    /* The detail-row that is shown when opening a row gets the .detail class */
-    .detail {  }
+    /* The detail-row that is shown when opening a row gets the .re-detail class */
+    .re-detail {  
+    }
 
-    /* .openclose is used on the header-element for the column that contains the indicators */
-    .openclose { width: 19px; }
+    /* .re-openclose is used on the header-element for the column that contains the indicators */
+    .re-openclose { 
+      width: 19px; 
+    }
 

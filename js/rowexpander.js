@@ -1,13 +1,22 @@
-/* RowExpander */
+/*
+* RowExpander: jQuery plugin to make table rows expandable, and
+* dynamically load detail-rows.
+*
+* Source: https://github.com/eriksacre/rowexpander
+* Copyright 2012 Erik Sacre.
+*
+* Released under the MIT license.
+*/
 
 (function($) {
-  var indicator = "<i class='indicator'></i>";
-  var loading = "<i class='loading'></i>";
-  var openCloseCell = "<td>" + indicator + "</td>";
-  var headerCell = "<th class='openclose'></th>";
+  var loading = "<i class='re-loading'></i>";
+  var headerCell = "<th class='re-openclose'></th>";
   var emptyCell = "<td></td>";
+  function openCloseCell(position) {
+    return "<td><i class='re-indicator " + position + "'></i></td>";
+  }
   function detailRow(colCount) {
-    return "<tr class='detail hidden'><td colspan='" + colCount + "'></td></tr>";
+    return "<tr class='re-detail re-hidden'><td colspan='" + colCount + "'></td></tr>";
   }
 
   function RowExpander(element, options) {
@@ -61,7 +70,7 @@
     },
 
     stripeTable: function() {
-      this.rows.filter(":odd").addClass('odd');
+      this.rows.filter(":odd").addClass('re-odd');
     },
 
     setupExpandableRows: function() {
@@ -69,21 +78,23 @@
       this.rows.slice(1).each(function() {
         var href = $(this).attr("data-href");
         if(href) {
-          $(this).addClass("closed");
-          expander.addCol($(this), openCloseCell);
+          $(this).addClass("re-collapsible");
+          expander.addCol($(this), openCloseCell(expander.settings["position"]));
           $(this).after(detailRow(expander.colCount));
-          $(this).click(function() {
-            $(this).toggleClass("open");
-            $(this).next().toggleClass("hidden");
-            if($(this).hasClass("open")) {
-              $(this).next().children().first().html(loading);
-              $(this).next().children().first().load($(this).attr("data-href"));
-            }
-          });
+          $(this).click(expander.expandCollapseHandler);
         } else {
           expander.addCol($(this), emptyCell);
         }
       });
+    },
+
+    expandCollapseHandler: function() {
+      $(this).toggleClass("re-open");
+      $(this).next().toggleClass("re-hidden");
+      if($(this).hasClass("re-open")) {
+        $(this).next().children().first().html(loading);
+        $(this).next().children().first().load($(this).attr("data-href"));
+      }
     }
   }
 
