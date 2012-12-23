@@ -21,6 +21,19 @@ RowExpander uses data-attributes to determine its behaviour.
   should point to something that returns the content of the detail row.
 It will be loaded via Ajax. 
 
+It is also possible to call the plugin as follows:
+
+```javascript
+$("#people").rowExpander();
+```
+
+If you want to override the default options, you can pass the options as
+the first argument:
+
+```javascript
+$("#people").rowExpander({ 'position': 'left' });
+```
+
 # License
 
 RowExpander is released under the [MIT license](http://opensource.org/licenses/MIT).
