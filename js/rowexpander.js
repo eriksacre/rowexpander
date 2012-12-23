@@ -4,22 +4,74 @@
   var indicator = "<i class='indicator'></i>";
   var loading = "<i class='loading'></i>";
   var openCloseCell = "<td>" + indicator + "</td>";
+  var headerCell = "<th class='openclose'></th>";
+  var emptyCell = "<td></td>";
+  function detailRow(colCount) {
+    return "<tr class='detail hidden'><td colspan='" + colCount + "'></td></tr>";
+  }
 
-  $.fn.rowExpander = function(scan) {
-    var nodes = scan ? $("body").find("[data-expand]") : this;
-    return nodes.each(function() {
-      var rows = $(this).find("tr");
-      var firstRow = rows.first();
-      firstRow.append("<th class='openclose'></th>");
-      var colCount = firstRow.find("th").length;
+  function RowExpander(element, options) {
+    this.element = element;
+    this.options = options;
+    this.settings = {};
+    this.rows = this.element.find("tr");
+    this.colCount = 0;
+    this.expand();
+  }
 
-      rows.filter(":odd").addClass('odd');
-      rows.slice(1).each(function() {
+  RowExpander.prototype = {
+    expand: function() {
+      this.overrideOptions();
+      this.dataOptions();
+      this.expandHeader();
+      this.stripeTable();
+      this.setupExpandableRows();
+    },
+
+    overrideOptions: function() {
+      this.settings = $.extend({
+        'position': 'right'
+      }, this.options);
+    },
+
+    dataOptions: function() {
+      var attrName, attrValue;
+      var expander = this;
+      $.each(expander.settings, function(key, value) {
+        attrName = "data-" + key;
+        attrValue = expander.element.attr(attrName);
+        if(attrValue) {
+          expander.settings[key] = attrValue;
+        }
+      });
+    },
+
+    addCol: function(element, html) {
+      if(this.settings['position'] == 'left') {
+        return element.prepend(html);
+      } else {
+        return element.append(html);
+      }
+    },
+
+    expandHeader: function() {
+      var firstRow = this.rows.first();
+      this.addCol(firstRow, headerCell);
+      this.colCount = firstRow.find("th").length;
+    },
+
+    stripeTable: function() {
+      this.rows.filter(":odd").addClass('odd');
+    },
+
+    setupExpandableRows: function() {
+      var expander = this;
+      this.rows.slice(1).each(function() {
         var href = $(this).attr("data-href");
         if(href) {
           $(this).addClass("closed");
-          $(this).append(openCloseCell);
-          $(this).after("<tr class='detail hidden'><td colspan='" + colCount + "'></td></tr>");
+          expander.addCol($(this), openCloseCell);
+          $(this).after(detailRow(expander.colCount));
           $(this).click(function() {
             $(this).toggleClass("open");
             $(this).next().toggleClass("hidden");
@@ -29,13 +81,21 @@
             }
           });
         } else {
-          $(this).append("<td></td>");
+          expander.addCol($(this), emptyCell);
         }
       });
+    }
+  }
+
+  $.fn.rowExpander = function(options, scan) {
+    var nodes = scan ? $("body").find("[data-expand]") : this;
+
+    return nodes.each(function() {
+      expander = new RowExpander($(this), options);
     });
   };
 
   $(function() {
-    $.fn.rowExpander(true);
+    $.fn.rowExpander({}, true);
   });
 })(jQuery);
