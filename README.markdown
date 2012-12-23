@@ -1,17 +1,17 @@
 # RowExpander
 
-RowExpander is a jQuery plugin that will turns the rows of a table into
+RowExpander is a jQuery plugin that turns the rows of a table into
 expandable/collapsable rows. The expanded part is loaded dynamically.
 
 ## What does it do?
 
 RowExpander makes the rows of a table expandable. When a user clicks on
-an expandable row, a detail-row is shown. The content of the detail low
+an expandable row, a detail-row is shown. The content of the detail row
 is loaded dynamically through Ajax.
 
 ## How does it work?
 
-RowExpander uses data-attributes to determine its behaviour.
+RowExpander uses data-attributes to define its behaviour.
 
 * Add a data-expand attribute to the table to use the RowExpander plugin
 * Optionally add a data-position attribute to the table. By default the
